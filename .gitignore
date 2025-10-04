@@ -1,0 +1,6 @@
+# Ignorar carpetas de caché de Python
+__pycache__/
+
+# Ignorar la carpeta .vscode (configuración local)
+.vscode/
+
