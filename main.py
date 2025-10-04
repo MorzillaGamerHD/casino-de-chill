@@ -13,7 +13,7 @@ if __name__ == "__main__":
     print("====================================")
     print("  ¡BIENVENIDO AL CASINO DEL PAPU!   ")
     print("====================================")
-    print("WIP v0.2")
+    print("WIP v0.2.2")
 
 
 
@@ -30,6 +30,7 @@ if __name__ == "__main__":
         time.sleep(0.7)
         
         #este if es para q no se haga un bucle y se cierre el juego
+        #por si elejis q no quers seguir te saca directamente
         if apuesta == 0:
             print("¡Gracias por jugar! 👋")
             time.sleep(2)

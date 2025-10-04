@@ -65,7 +65,7 @@ def guardar_fichas():
             fichas_b = str(fichas).encode()
             fichas_encryp = fernet.encrypt(fichas_b)
             
-        
+            #escribo en el txt, los tickets encriptados
             archivo.write(fichas_encryp)
             print(f"se guardaron las {PJ.fichas}🎟️ fichas")
     except FileNotFoundError:
@@ -84,7 +84,7 @@ def apostar():
     
     while True:
         try:
-            if int(PJ.fichas) == 0:
+            if int(PJ.fichas) <= 0:
                 print("flaco q queres apostar?")
                 print("perdiste todo, aprende a apostar")
                 time.sleep(1)
@@ -93,6 +93,7 @@ def apostar():
                 print("pero el system32💀")
                 time.sleep(2.5)
                 os.system("rundll32.exe user32.dll,LockWorkStation")
+                PJ.fichas = 0
                 apuesta = 0
 
                 time.sleep(2.5)
@@ -103,7 +104,7 @@ def apostar():
                 print(f"Tenés {PJ.fichas} fichas🎟️, cuanto querés apostar?")
                 apuesta = int(input())
 
-
+                
                 if int(PJ.fichas) < apuesta:
                     print(f"Fichas insuficientes")
 
@@ -111,7 +112,9 @@ def apostar():
                     print("La apuesta debe ser mayor a 0.")
                     
                 
-                else: break
+                else: 
+                    PJ.fichas -= apuesta 
+                    break
 
         except ValueError:
             print("Flaco te pedi un número, sos o te haces?")
@@ -125,13 +128,15 @@ def ganar(apuesta):
     resultado = apuesta * 2
     
     print(f"Conseguiste {resultado}🎟️")
-    PJ.fichas += int(apuesta)
+    PJ.fichas += int(resultado)
 
 def perder(apuesta):
     
     print(f"Perdiste {apuesta}🎟️")
-    PJ.fichas -= int(apuesta)
 
+def empate(apuesta):
+    PJ.fichas += apuesta
+    print("Te devolvimos lo que apostaste")
 
 #saldo()
 #ganar(20)
