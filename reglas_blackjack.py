@@ -109,7 +109,10 @@ def blackjack(apuesta):
 
     #Resultado de partida
     if conteo_jugador <= 21:
-        if conteo_dealer < conteo_jugador:
+        if conteo_dealer < conteo_jugador and conteo_jugador == 21:
+            print("Ganaste con 21🤑🤑")
+            eco.ganar21(apuesta)
+        elif conteo_dealer < conteo_jugador:
             print("Ganaste 🤑🤑")
             eco.ganar(apuesta)
         elif conteo_dealer == conteo_jugador:
