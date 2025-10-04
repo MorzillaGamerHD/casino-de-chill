@@ -19,7 +19,7 @@ if __name__ == "__main__":
 
     time.sleep(0.7)
     eco.cargar_fichas()
-    # no es necesario pq eco.apostar ya te muestra cuanto tenes
+    # no es necesario pq eco.apostar ya te muestra cuanto tenes asads
     #eco.saldo()
 
 
