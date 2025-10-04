@@ -48,7 +48,7 @@ def cargar_fichas():
 
 
 #ponerlo en una funcion y hacer uno q guarde las fichas al salir✅
-#arreglar q el archivo fichas.txt se guarde en cualquier lugar y no en la misma carpeta
+#arreglar q el archivo fichas.txt se guarde en cualquier lugar y no en la misma carpeta(de alguna manera se arregló)✅ 
 #intentar un anticheats, fijandose en cuando se guardo/modificó por ultima vez✅
 
 
