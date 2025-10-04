@@ -4,3 +4,4 @@ __pycache__/
 # Ignorar la carpeta .vscode (configuración local)
 .vscode/
 
+fichas.txt
