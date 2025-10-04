@@ -47,9 +47,6 @@ def cargar_fichas():
                     PJ = Jugador(100)
 
 
-#ponerlo en una funcion y hacer uno q guarde las fichas al salir✅
-#arreglar q el archivo fichas.txt se guarde en cualquier lugar y no en la misma carpeta(de alguna manera se arregló)✅ 
-#intentar un anticheats, fijandose en cuando se guardo/modificó por ultima vez✅
 
 
 
@@ -138,7 +135,10 @@ def empate(apuesta):
     PJ.fichas += apuesta
     print("Te devolvimos lo que apostaste")
 
-#saldo()
-#ganar(20)
-#saldo()
-#apostar()
+def ganar21(apuesta):
+    
+    resultado = apuesta + (apuesta * 1.5)
+
+    print(f"Conseguiste {resultado}🎟️")
+    PJ.fichas += int(resultado)
+
