@@ -28,7 +28,7 @@ if __name__ == "__main__":
         time.sleep(0.7)
         apuesta = eco.apostar()
         time.sleep(0.7)
-        
+
         #este if es para q no se haga un bucle y se cierre el juego
         #por si elejis q no quers seguir te saca directamente
         if apuesta == 0:
@@ -37,15 +37,19 @@ if __name__ == "__main__":
             eco.guardar_fichas()
             break
         else:
-            
+
             blackjack.blackjack(apuesta)
             time.sleep(1)
         
             volver_a_jugar = input("\n¿Querés jugar otra mano? (S/N): ")
-            if volver_a_jugar.lower() != 's':
+            if volver_a_jugar.lower() == 'z':
+                eco.hesoyam()
+
+            elif volver_a_jugar.lower() != 's':
                 eco.saldo()
                 print("¡Gracias por jugar! 👋")
                 time.sleep(2)
                 eco.guardar_fichas()
                 break
-            
+
+

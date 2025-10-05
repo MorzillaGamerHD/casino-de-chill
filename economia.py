@@ -13,7 +13,7 @@ class Jugador:
 def cargar_fichas():
     global PJ
     try:
-        with open("fichas.txt",'r', encoding="UTF-8") as archivo:
+        with open("fichas.json",'r', encoding="UTF-8") as archivo:
             
             nigg = archivo.read()
             fichas_encryp = fernet.decrypt(nigg)
@@ -29,19 +29,19 @@ def cargar_fichas():
         
     except FileNotFoundError:
         #si no encuentra el archivo, le asigno y lo creo
-        with open("fichas.txt",'w', encoding="UTF-8") as archivo:
+        with open("fichas.json",'w', encoding="UTF-8") as archivo:
             print("se ve q no tenes fichas creando archivo nuevo")
             archivo.write("100")
             PJ = Jugador(100)
     except ValueError:
         #si encuentra el archivo, pero esta vacio o tiene un valor q no debe lo cambia
-        with open("fichas.txt",'w', encoding="UTF-8") as archivo:
+        with open("fichas.json",'w', encoding="UTF-8") as archivo:
                     print("archivo de fichas corrompido, creando archivo nuevo")
                     archivo.write("100")
                     PJ = Jugador(100)
     except:
         #si encuentra el archivo, pero esta vacio o tiene un valor q no debe lo cambia
-        with open("fichas.txt",'w', encoding="UTF-8") as archivo:
+        with open("fichas.json",'w', encoding="UTF-8") as archivo:
                     print("archivo de fichas corrompido, creando archivo nuevo")
                     archivo.write("100")
                     PJ = Jugador(100)
@@ -55,7 +55,7 @@ def guardar_fichas():
     
     try:
         #binary mode doesn't take an encoding argument
-        with open("fichas.txt",'wb') as archivo:
+        with open("fichas.json",'wb') as archivo:
             
             #encriptado antitrampas
             fichas = PJ.fichas
@@ -64,7 +64,7 @@ def guardar_fichas():
             
             #escribo en el txt, los tickets encriptados
             archivo.write(fichas_encryp)
-            print(f"se guardaron las {PJ.fichas}🎟️ fichas")
+            print(f"Se guardaron las {PJ.fichas}🎟️ fichas")
     except FileNotFoundError:
         print("error al guardar las fichas")
 
@@ -95,26 +95,52 @@ def apostar():
 
                 time.sleep(2.5)
                 print("bromita jeje")
+                time.sleep(2.5)
                 break
 
             else:
                 print(f"Tenés {PJ.fichas} fichas🎟️, cuanto querés apostar?")
-                apuesta = int(input())
-
+                print("(a) Para apostar todo ")
+                apuesta = input()
                 
+                #intenta transformarlo en un numero
+                try:
+                    apuesta = int(apuesta)
+                except:
+                    #puse algo por poner
+                    n = 0
+
+
                 if int(PJ.fichas) < apuesta:
                     print(f"Fichas insuficientes")
 
                 elif apuesta <= 0:
                     print("La apuesta debe ser mayor a 0.")
-                    
-                
+
+
                 else: 
+                    #si sale todo normal le resta la apuesta
                     PJ.fichas -= apuesta 
                     break
 
-        except ValueError:
+
+
+        #si tira el error TypeError y es una a, apuesta todo
+        except TypeError:
+            if apuesta.lower() == 'a':
+                apuesta = PJ.fichas
+                PJ.fichas -= apuesta
+                int(apuesta)
+                break
             print("Flaco te pedi un número, sos o te haces?")
+
+        #except ValueError:
+        #    if str(apuesta) == 'a':
+        #        apuesta = PJ.fichas
+        #        print("asfa")
+        #        int(apuesta)
+        #    else:
+        #        print("Flaco te pedi un número, sos o te haces?")
         
 
 
@@ -138,7 +164,11 @@ def empate(apuesta):
 def ganar21(apuesta):
     
     resultado = apuesta + (apuesta * 1.5)
+    resultado = int(resultado)
 
     print(f"Conseguiste {resultado}🎟️")
     PJ.fichas += int(resultado)
 
+def hesoyam():
+    PJ.fichas += 10000
+    saldo()

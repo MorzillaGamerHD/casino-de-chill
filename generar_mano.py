@@ -7,6 +7,12 @@ def gencartas():
 
    return carta, palo_carta
 
+#guardar en el archivo de las fichas las cartas q salen y chekear si salen 
+#para no repetir 
+#pensar q pasa si se cierra el programa en el medio
+#con las cartas en el archivo
+
+
 #le da los valores del las cartas de póker
 def asignar_valores_cartas(carta, palo_carta):
 

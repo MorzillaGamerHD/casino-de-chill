@@ -97,19 +97,19 @@ def blackjack(apuesta):
             conteo_dealer = calcular_valor_mano(cartas_dealer) 
             print(f"El dealer saco una carta {carta[0]}, ahora tiene {[c[0] for c in cartas_dealer]} en total {conteo_dealer}")
 
-            if conteo_dealer == 21:
+            if conteo_dealer == 21 and conteo_jugador < 21:
                 print("El dealer te rompio el ojete 💥💥💥")
                 eco.perder(apuesta)
                 break 
 
-            if conteo_dealer > 21:
+            if conteo_dealer > 21 and conteo_jugador != 21:
                 print("El dealer se pasó 💥")
                 eco.ganar(apuesta)
                 break 
 
     #Resultado de partida
     if conteo_jugador <= 21:
-        if conteo_dealer < conteo_jugador and conteo_jugador == 21:
+        if conteo_jugador == 21:
             print("Ganaste con 21🤑🤑")
             eco.ganar21(apuesta)
         elif conteo_dealer < conteo_jugador:
@@ -118,7 +118,7 @@ def blackjack(apuesta):
         elif conteo_dealer == conteo_jugador:
             print("Empate")
             eco.empate(apuesta)
-        elif conteo_dealer > conteo_jugador and conteo_dealer != 21 and conteo_dealer < 21:
+        elif conteo_dealer > conteo_jugador:
             print("Perdiste petón")
             eco.perder(apuesta)
 
