@@ -1,7 +1,6 @@
-# Ignorar carpetas de caché de Python
 __pycache__/
 
-# Ignorar la carpeta .vscode (configuración local)
+
 .vscode/
 build
 dist
@@ -10,4 +9,5 @@ compilar.bat
 
 
 a/
-fichas.txt
+cartas.json
+fichas.json

@@ -102,14 +102,14 @@ def blackjack(apuesta):
                 eco.perder(apuesta)
                 break 
 
-            if conteo_dealer > 21 and conteo_jugador != 21:
+            elif conteo_dealer > 21 and conteo_jugador != 21:
                 print("El dealer se pasó 💥")
                 eco.ganar(apuesta)
                 break 
 
     #Resultado de partida
     if conteo_jugador <= 21:
-        if conteo_jugador == 21:
+        if conteo_jugador == 21 and conteo_dealer < conteo_jugador:
             print("Ganaste con 21🤑🤑")
             eco.ganar21(apuesta)
         elif conteo_dealer < conteo_jugador:
@@ -118,11 +118,10 @@ def blackjack(apuesta):
         elif conteo_dealer == conteo_jugador:
             print("Empate")
             eco.empate(apuesta)
-        elif conteo_dealer > conteo_jugador:
+        elif conteo_dealer > conteo_jugador and conteo_dealer != 21:
             print("Perdiste petón")
             eco.perder(apuesta)
 
 
 
 
-    #poner la opcion de empatar y/o perder por el dealer

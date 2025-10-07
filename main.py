@@ -1,5 +1,6 @@
 import reglas_blackjack as blackjack
 import economia as eco
+from generar_mano import borrar_cartas
 import time
 
 def juego():
@@ -7,15 +8,18 @@ def juego():
     respuesta = input("Blackjack? (B), Pocker (P), Ruleta(R)")
     print(respuesta)
 
-
-
-if __name__ == "__main__":
+def bienvenida():
     print("====================================")
     print("  ¡BIENVENIDO AL CASINO DEL PAPU!   ")
     print("====================================")
-    print("WIP v0.2.2")
+    print("WIP v0.2.2\n")
+    
 
 
+if __name__ == "__main__":
+
+    borrar_cartas()
+    bienvenida()
 
     time.sleep(0.7)
     eco.cargar_fichas()
@@ -35,12 +39,14 @@ if __name__ == "__main__":
             print("¡Gracias por jugar! 👋")
             time.sleep(2)
             eco.guardar_fichas()
+            borrar_cartas()
             break
         else:
 
             blackjack.blackjack(apuesta)
+            borrar_cartas()
             time.sleep(1)
-        
+
             volver_a_jugar = input("\n¿Querés jugar otra mano? (S/N): ")
             if volver_a_jugar.lower() == 'z':
                 eco.hesoyam()
@@ -50,6 +56,7 @@ if __name__ == "__main__":
                 print("¡Gracias por jugar! 👋")
                 time.sleep(2)
                 eco.guardar_fichas()
+                borrar_cartas()
                 break
 
-
+# CTRL + K + C
