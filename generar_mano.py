@@ -37,7 +37,7 @@ def asignar_valores_cartas(carta, palo_carta):
    return carta_final, conteo
 
 #es para generar una carta 
-def generar_carta():
+def generar_carta() -> tuple:
    
    while True:
       carta, palo = gencartas()
@@ -61,12 +61,12 @@ def generar_carta():
    return carta_f
 
 
-def guardar_carta(carta):
+def guardar_carta(carta) -> None:
 
    with open("cartas.json",'a', encoding="UTF-8") as archivo:
       archivo.writelines(f'{carta[0]}\n')
 
-def leer_carta(carta):
+def leer_carta(carta) -> bool:
    try:
       with open("cartas.json",'r', encoding="UTF-8") as archivo:
 
@@ -89,19 +89,16 @@ def leer_carta(carta):
             # si la carta esta en el archivo devuelve True
             
             if tupla_mejorada == carta_tupla_mejorada:
-               conteo_linea+=1
                break
             else:
                pass
 
       #vuelvo a chekear pq si no, no termina el for
-      if conteo_linea != 50:
-         if tupla_mejorada == carta_tupla_mejorada:
-            return True
-         else:
-               return False
+      if tupla_mejorada == carta_tupla_mejorada:
+         return True
       else:
-         return 50
+            return False
+   
    except FileNotFoundError:
       #esto es por si no encuentra el archivo, ya q 
       #se ejecuta primero este y esta en modo leer
@@ -111,7 +108,7 @@ def leer_carta(carta):
    except UnboundLocalError: #si no encuentra nada dentro del archivo, tira error
       return False
 
-def borrar_cartas():
+def borrar_cartas() -> None:
    ruta_del_archivo = 'cartas.json'
 
    # Verifica si el archivo existe antes de intentar borrarlo
