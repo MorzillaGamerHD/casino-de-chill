@@ -1,9 +1,9 @@
-import reglas_blackjack as blackjack
+from reglas_blackjack import blackjack
 import economia as eco
 from generar_mano import borrar_cartas
 import time
 
-def juego() -> None:
+def juego() -> None: #todavia no se usa
     while True:
         print("q jeugo quers jugar?")
         respuesta: str = input("Blackjack? (B), Pocker (P), Ruleta(R)")
@@ -28,9 +28,30 @@ def bienvenida() -> None:
     print("WIP v0.2.3\n")
 
 
+def cerrar_programa() -> None:
+    print("¡Gracias por jugar! 👋")
+    eco.guardar_fichas()
+    time.sleep(2)
 
-if __name__ == "__main__":
+def volver_a_jugar() -> bool:
+    while True:
+        volver_a_jugar: str = input("\n¿Querés jugar otra mano? (S/N): ")
+        match volver_a_jugar:
+            case 'z':
+                eco.hesoyam()
+                return True
+            case 's':
+                return True
+            case 'n':
+                cerrar_programa()
+                return False
+            case _:
+                print("Operacion invalida")
+                pass
 
+
+def main() -> None:
+    
     borrar_cartas()
     bienvenida()
 
@@ -38,7 +59,6 @@ if __name__ == "__main__":
     eco.cargar_fichas()
     # no es necesario pq eco.apostar ya te muestra cuanto tenes asads
     #eco.saldo()
-
 
     while True:
         print("\n--- COMENZANDO NUEVA MANO ---")
@@ -49,28 +69,19 @@ if __name__ == "__main__":
         #este if es para q no se haga un bucle y se cierre el juego
         #por si elejis q no quers seguir te saca directamente
         if apuesta == 0:
-            print("¡Gracias por jugar! 👋")
-            time.sleep(2)
-            eco.guardar_fichas()
-            borrar_cartas()
+            cerrar_programa()
             break
         else:
 
-            blackjack.blackjack(apuesta)
+            blackjack(apuesta)
             borrar_cartas()
             time.sleep(1)
 
-            volver_a_jugar: str = input("\n¿Querés jugar otra mano? (S/N): ")
-            match volver_a_jugar:
-                case 'z':
-                    eco.hesoyam()
-                case 's':
-                    pass
-                case _:
-                    eco.saldo()
-                    print("¡Gracias por jugar! 👋")
-                    time.sleep(2)
-                    eco.guardar_fichas()
-                    break
-# CTRL + K + C
+            if volver_a_jugar() is not True:
+                break
+            
+
+
+if __name__ == "__main__":
+    main()
 

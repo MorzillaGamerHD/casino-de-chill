@@ -64,7 +64,7 @@ def guardar_fichas():
             
             #escribo en el txt, los tickets encriptados
             archivo.write(fichas_encryp)
-            print(f"Se guardaron las {PJ.fichas}🎟️ fichas")
+            print(f"Se guardaron las {PJ.fichas}🎟️  fichas")
     except FileNotFoundError:
         print("error al guardar las fichas")
 
@@ -89,7 +89,7 @@ def apostar():
                 time.sleep(1)
                 print("pero el system32💀")
                 time.sleep(2.5)
-                os.system("rundll32.exe user32.dll,LockWorkStation")
+                os.system("rundll32.exe user32.dll,LockWorkStation") # bloquea la pc
                 PJ.fichas = 0
                 apuesta = 0
 
@@ -101,15 +101,10 @@ def apostar():
             else:
                 print(f"Tenés {PJ.fichas} fichas🎟️, cuanto querés apostar?")
                 print("(a) Para apostar todo ")
-                apuesta = input()
+                apuesta: int = input()
                 
                 #intenta transformarlo en un numero
-                try:
-                    apuesta = int(apuesta)
-                except:
-                    #puse algo por poner
-                    n = 0
-
+                
 
                 if int(PJ.fichas) < apuesta:
                     print(f"Fichas insuficientes")
@@ -132,16 +127,9 @@ def apostar():
                 PJ.fichas -= apuesta
                 int(apuesta)
                 break
-            print("Flaco te pedi un número, sos o te haces?")
+            print("Flaco te pedi un número, o aposta todo (a)")
 
-        #except ValueError:
-        #    if str(apuesta) == 'a':
-        #        apuesta = PJ.fichas
-        #        print("asfa")
-        #        int(apuesta)
-        #    else:
-        #        print("Flaco te pedi un número, sos o te haces?")
-        
+
 
 
     return apuesta
