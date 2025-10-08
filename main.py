@@ -61,17 +61,6 @@ if __name__ == "__main__":
             time.sleep(1)
 
             volver_a_jugar: str = input("\n¿Querés jugar otra mano? (S/N): ")
-            # if volver_a_jugar.lower() == 'z':
-            #     eco.hesoyam()
-
-            # elif volver_a_jugar.lower() != 's':
-            #     eco.saldo()
-            #     print("¡Gracias por jugar! 👋")
-            #     time.sleep(2)
-            #     eco.guardar_fichas()
-            #     borrar_cartas()
-            #     break
-            
             match volver_a_jugar:
                 case 'z':
                     eco.hesoyam()
