@@ -3,6 +3,8 @@ import economia as eco
 from generar_mano import borrar_cartas
 import time
 
+
+
 def juego() -> None: #todavia no se usa
     while True:
         print("q jeugo quers jugar?")

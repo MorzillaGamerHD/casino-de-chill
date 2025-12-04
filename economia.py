@@ -1,26 +1,29 @@
-import time
-import os
 from cryptography.fernet import Fernet
 
-clave = b'4WVabWzje3Ucvbtd-uqqSSTTiyz-24Dhw6W3maYR-lQ='
-fernet = Fernet(clave)
+ARCHIVO_FICHAS = "fichas.json"
+CLAVE_FERNET = b'4WVabWzje3Ucvbtd-uqqSSTTiyz-24Dhw6W3maYR-lQ='
+
+
+fernet = Fernet(CLAVE_FERNET) 
+
 
 class Jugador:
-    def __init__(self,Fichas):
+    def __init__(self,Fichas): 
         self.fichas = Fichas
+        #self.cartas = 10
 
 
-def cargar_fichas():
+def cargar_fichas() -> None:
     global PJ
     try:
-        with open("fichas.json",'r', encoding="UTF-8") as archivo:
+        with open(ARCHIVO_FICHAS,'r', encoding="UTF-8") as archivo:
             
-            nigg = archivo.read()
-            fichas_encryp = fernet.decrypt(nigg)
-            fichas_decryp = fichas_encryp.decode()
+            #nigg = archivo.read()
+            fichas_encryp = fernet.decrypt(archivo.read())
+            fichas_desencriptado = fichas_encryp.decode()
         
         
-            PJ = Jugador(int(fichas_decryp))
+            PJ = Jugador(int(fichas_desencriptado))
             if PJ.fichas == 0:
                 print("como vas a perder todo, toma te regalo 100🎟️")
                 PJ.fichas = 100
@@ -29,33 +32,32 @@ def cargar_fichas():
         
     except FileNotFoundError:
         #si no encuentra el archivo, le asigno y lo creo
-        with open("fichas.json",'w', encoding="UTF-8") as archivo:
-            print("se ve q no tenes fichas creando archivo nuevo")
+        with open(ARCHIVO_FICHAS,'w', encoding="UTF-8") as archivo:
+            print("se ve q no tenes fichas creando archivo nuevo...")
             archivo.write("100")
+            
+            #se pone asi pq si no, no se inicializa que es PJ
+            #   NameError: name 'PJ' is not defined
             PJ = Jugador(100)
     except ValueError:
         #si encuentra el archivo, pero esta vacio o tiene un valor q no debe lo cambia
-        with open("fichas.json",'w', encoding="UTF-8") as archivo:
-                    print("archivo de fichas corrompido, creando archivo nuevo")
+        with open(ARCHIVO_FICHAS,'w', encoding="UTF-8") as archivo:
+                    print("archivo de fichas corrompido, creando archivo nuevo...")
                     archivo.write("100")
                     PJ = Jugador(100)
     except:
         #si encuentra el archivo, pero esta vacio o tiene un valor q no debe lo cambia
-        with open("fichas.json",'w', encoding="UTF-8") as archivo:
-                    print("archivo de fichas corrompido, creando archivo nuevo")
+        with open(ARCHIVO_FICHAS,'w', encoding="UTF-8") as archivo:
+                    print("archivo de fichas corrompido, creando archivo nuevo...")
                     archivo.write("100")
                     PJ = Jugador(100)
 
-
-
-
-
-def guardar_fichas():
+def guardar_fichas() -> None:
     global PJ
     
     try:
         #binary mode doesn't take an encoding argument
-        with open("fichas.json",'wb') as archivo:
+        with open(ARCHIVO_FICHAS,'wb') as archivo:
             
             #encriptado antitrampas
             fichas = PJ.fichas
@@ -68,95 +70,82 @@ def guardar_fichas():
     except FileNotFoundError:
         print("error al guardar las fichas")
 
-
-
-
 #se fija cuanto saldo tiene el jugador
-def saldo():
-    print(f"Actualmente tenés {PJ.fichas} fichas🎟️")
-
+def saldo() -> None: print(f"Actualmente tenés {PJ.fichas} fichas🎟️")
 
 #esta funcion es para verificar si podemos o no hacer la apuesta
-def apostar():
-    
-    while True:
-        try:
-            if int(PJ.fichas) <= 0:
-                print("flaco q queres apostar?")
-                print("perdiste todo, aprende a apostar")
-                time.sleep(1)
-                print("ahora vas a perder tambien")
-                time.sleep(1)
-                print("pero el system32💀")
-                time.sleep(2.5)
-                os.system("rundll32.exe user32.dll,LockWorkStation") # bloquea la pc
-                PJ.fichas = 0
-                apuesta = 0
+# y descuenta las fichas apostadas
+def apostar() -> int:
 
-                time.sleep(2.5)
-                print("bromita jeje")
-                time.sleep(2.5)
-                break
+    def es_int(apuesta):
+        try:
+            apuesta = int(apuesta)
+            return True
+        except ValueError:
+            return False
+
+
+    if PJ.fichas == 0:
+                print("no tenes fichas pa")
+                #devuelve 0 para q se cierre el programa en main
+                apuesta = 0
+                return apuesta
+
+
+    while True:
+        print(f"Tenés {PJ.fichas} fichas🎟️, cuanto querés apostar?")
+        print("(a) Para apostar todo ")
+
+        apuesta = input()
+
+
+        if es_int(apuesta) == True:
+            apuesta = int(apuesta)
+            # como chekear si es un int o un str?
+            if apuesta > PJ.fichas:
+                print("Fichas insuficientes")
+
+            
+
+            if apuesta <= 0:
+                print("La apuesta debe ser mayor a 0.")
 
             else:
-                print(f"Tenés {PJ.fichas} fichas🎟️, cuanto querés apostar?")
-                print("(a) Para apostar todo ")
-                apuesta: int = input()
-                
-                #intenta transformarlo en un numero
-                
-
-                if int(PJ.fichas) < apuesta:
-                    print(f"Fichas insuficientes")
-
-                elif apuesta <= 0:
-                    print("La apuesta debe ser mayor a 0.")
-
-
-                else: 
-                    #si sale todo normal le resta la apuesta
-                    PJ.fichas -= apuesta 
-                    break
-
-
-
-        #si tira el error TypeError y es una a, apuesta todo
-        except TypeError:
+                PJ.fichas -= apuesta 
+                return apuesta
+        else:
             if apuesta.lower() == 'a':
                 apuesta = PJ.fichas
                 PJ.fichas -= apuesta
-                int(apuesta)
-                break
+                return apuesta
             print("Flaco te pedi un número, o aposta todo (a)")
 
 
-
-
-    return apuesta
-
-def ganar(apuesta):
+def ganar(apuesta: int) -> None:
     
     resultado = apuesta * 2
     
     print(f"Conseguiste {resultado}🎟️")
-    PJ.fichas += int(resultado)
+    PJ.fichas += resultado
 
-def perder(apuesta):
+def perder(apuesta: int) -> None:
     
     print(f"Perdiste {apuesta}🎟️")
 
-def empate(apuesta):
+def empate(apuesta: int) -> None:
     PJ.fichas += apuesta
     print("Te devolvimos lo que apostaste")
 
-def ganar21(apuesta):
+def ganar21(apuesta: int) -> None:
     
     resultado = apuesta + (apuesta * 1.5)
+    #lo reconvierto a int pq puede tirar float
     resultado = int(resultado)
 
     print(f"Conseguiste {resultado}🎟️")
-    PJ.fichas += int(resultado)
+    PJ.fichas += resultado
 
-def hesoyam():
+def hesoyam() -> None:
     PJ.fichas += 10000
     saldo()
+
