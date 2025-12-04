@@ -98,26 +98,45 @@ def blackjack(apuesta) -> None:
             print(f"El dealer saco una carta {carta[0]}, ahora tiene {[c[0] for c in cartas_dealer]} en total {conteo_dealer}")
             time.sleep(1.5)
 
-        #Resultado de partida
 
-        if conteo_dealer == 21 and conteo_jugador < 21:
-            print("El dealer te rompio el ojete 💥💥💥")
-            eco.perder(apuesta)
-        elif conteo_dealer > 21 and conteo_jugador != 21:
-            print("El dealer se pasó 💥")
-            eco.ganar(apuesta)
-        elif conteo_jugador == 21 and conteo_dealer < conteo_jugador:
-            print("Ganaste con 21🤑🤑")
-            eco.ganar21(apuesta)
-        elif conteo_dealer < conteo_jugador:
-            print("Ganaste 🤑🤑")
-            eco.ganar(apuesta)
-        elif conteo_dealer == conteo_jugador:
-            print("Empate")
-            eco.empate(apuesta)            
-        elif conteo_dealer > conteo_jugador and conteo_dealer != 21:
-            print("Perdiste petón")
-            eco.perder(apuesta)
+        resultado_sub21(conteo_jugador, conteo_dealer, apuesta)
 
 
 
+
+
+#Resultado de partida
+def evaluar_resultado(jugador, dealer):
+    #aca solo evalua quien gana y retorna un string
+    if dealer == 21 and jugador < 21:
+        return "dealer_blackjack"
+    if dealer > 21:
+        return "dealer_se_paso"
+    if jugador == 21 and dealer < 21:
+        return "jugador_blackjack"
+    if jugador > dealer:
+        return "jugador_gana"
+    if jugador == dealer:
+        return "empate"
+    return "dealer_gana"
+
+
+def resultado_sub21(jugador, dealer, apuesta):
+    #resultado es el string q retorna la funcion evaluar_resultado
+    resultado = evaluar_resultado(jugador, dealer)
+
+    #diccionario de mensajes y acciones
+    mensajes = {
+        "dealer_blackjack": ("El crupier te rompió el ojete 💥💥💥", eco.perder),
+        "dealer_se_paso": ("El crupier se pasó 💥", eco.ganar),
+        "jugador_blackjack": ("Ganaste con 21 🤑🤑", eco.ganar21),
+        "jugador_gana": ("Ganaste 🤑🤑", eco.ganar),
+        "empate": ("Empate 😐", eco.empate),
+        "dealer_gana": ("Perdiste petón 😐", eco.perder),
+    }
+
+    #obtengo el mensaje y la accion del diccionario
+    mensaje, accion = mensajes[resultado]
+    print(mensaje)
+    #llamo a la accion 
+    accion(apuesta)
