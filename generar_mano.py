@@ -1,6 +1,8 @@
 import random
 import os
 
+ARCHIVO_CARTAS = "cartas.json"
+
 #genera los numeros q se convierten en cartas
 def gencartas():
    carta = random.randrange(1,14)
@@ -63,22 +65,23 @@ def generar_carta() -> tuple:
 
 def guardar_carta(carta) -> None:
 
-   with open("cartas.json",'a', encoding="UTF-8") as archivo:
+   with open(ARCHIVO_CARTAS,'a', encoding="UTF-8") as archivo:
       archivo.writelines(f'{carta[0]}\n')
 
 def leer_carta(carta) -> bool:
+   #top funciones mas peruanas de las historia
    try:
-      with open("cartas.json",'r', encoding="UTF-8") as archivo:
+      with open(ARCHIVO_CARTAS,'r', encoding="UTF-8") as archivo:
 
          lineas = archivo.readlines()
-         conteo_linea = 1
+         
 
          for linea in lineas:
             #print(f"{linea}")
 
             # necesito transformarlo en dupla para q los emojis se hagan legibles (♠, ♦, 🍀, ♥)
-            carta_tupla = tuple(carta[0])
-            linea_tupla = tuple(linea)
+            carta_tupla: tuple = carta[0]
+            linea_tupla: tuple = linea
 
             # al hacerlos tupla el numero y el palo me quedan separados 
             # y aca los junto
@@ -93,7 +96,7 @@ def leer_carta(carta) -> bool:
             else:
                pass
 
-      #vuelvo a chekear pq si no, no termina el for
+      #vuelvo a chekear para terminar de retornear
       if tupla_mejorada == carta_tupla_mejorada:
          return True
       else:
@@ -102,19 +105,19 @@ def leer_carta(carta) -> bool:
    except FileNotFoundError:
       #esto es por si no encuentra el archivo, ya q 
       #se ejecuta primero este y esta en modo leer
-      with open("cartas.json",'w', encoding="UTF-8") as archivo:
+      with open(ARCHIVO_CARTAS,'w', encoding="UTF-8") as archivo:
          pass
       return False
    except UnboundLocalError: #si no encuentra nada dentro del archivo, tira error
       return False
 
 def borrar_cartas() -> None:
-   ruta_del_archivo = 'cartas.json'
+   
 
    # Verifica si el archivo existe antes de intentar borrarlo
-   if os.path.exists(ruta_del_archivo):
-      os.remove(ruta_del_archivo)
+   if os.path.exists(ARCHIVO_CARTAS):
+      os.remove(ARCHIVO_CARTAS)
       #print(f"El archivo '{ruta_del_archivo}' ha sido eliminado exitosamente.")
    else:
-      print(f"El archivo '{ruta_del_archivo}' no existe.")
+      print(f"El archivo '{ARCHIVO_CARTAS}' no existe.")
 
